@@ -1,0 +1,6 @@
+server:
+  port: 8081
+
+
+system:
+  url: https://superapp.kiwa-tech.com
