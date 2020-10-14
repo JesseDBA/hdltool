@@ -53,11 +53,20 @@ public class ApiService {
     public JSONArray getStoreListByCityId(String cityId) {
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("cityId", cityId);
-
         String paramsJson = JSON.toJSONString(paramsMap);
         String result = HttpRequest.post(myProps.getUrl() + "/app/v2/getStoreListByCityId")
                                    .body(paramsJson)
                                    .execute().body();
         return JSON.parseObject(result).getJSONObject("data").getJSONArray("storeList");
+    }
+
+    public JSONObject getStoreStatusByStoreId(String storeId) {
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("storeId", storeId);
+        String paramsJson = JSON.toJSONString(paramsMap);
+        String result = HttpRequest.post(myProps.getUrl() + "/app/v2/getQueueStatus")
+                .body(paramsJson)
+                .execute().body();
+        return JSON.parseObject(result).getJSONObject("data");
     }
 }

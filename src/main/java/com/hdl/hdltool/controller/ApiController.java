@@ -105,4 +105,10 @@ public class ApiController {
     public String getStoreListByCityId(@RequestBody JSONObject JSONcityId) {
         return apiService.getStoreListByCityId(JSONcityId.getString("cityId")).toString();
     }
+
+    @PostMapping(value = "/getStoreStatusByStoreId", produces = "application/json;charset=utf-8")
+    public JSONObject getStoreStatusByStoreId(@RequestBody JSONObject JSONstoreId) {
+        return apiService.getStoreStatusByStoreId(JSONstoreId.getString("storeId"));
+    }
+
 }

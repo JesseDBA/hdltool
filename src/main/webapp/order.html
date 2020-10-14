@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>海底捞</title>
+    <link href="https://cdn.staticfile.org/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/flexboxgrid/6.3.1/flexboxgrid.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet">
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div>
+        <br>
+        <br>
+        <h3>排号成功</h3>
+        <br>
+    </div>
+    <div class="cities1">
+        <h4>&nbsp;&nbsp;&nbsp;{{cacheData.storeName}}</h4><span style="font-family:arial;color:#535353;50px;padding:20px ">刷新</span>
+    </div>
+
+    <div class="cities1">
+        <p style="font-family:arial;color:#000000;font-size:16px;">&nbsp;&nbsp;&nbsp;还需等待&nbsp;</p>
+        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;当前叫号</p>
+        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;就餐时间</p>
+        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;就餐人数</p>
+        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;取号时间</p>
+        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">
+            &nbsp;&nbsp;&nbsp; *本店排号仅限当前市别使用，过市别，作废。若过号，则在现场叫号基础上每过1-10个号顺延3桌为您优先安排，具体等位时间以现场实际情况为准。本店现场等座顾客隔桌而坐，人与人之间尽量相隔1米，请您理解！</p>
+    </div>
+    <div class="cities3">
+        <p style="font-family:arial;color:#000000;font-size:16px;">{{cacheData.storeAddress}}</p>
+    </div>
+    <div class="cities4">
+        <p style="font-family:arial,serif;color:#000000;font-size:16px;">&nbsp;&nbsp;&nbsp;附近门店推荐</p>
+    </div>
+    <div class="cities5">
+
+        <p style="font-family:arial;color:#000000;font-size:16px;">&nbsp;&nbsp;&nbsp;门店叫号提前提醒</p>
+
+        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">
+            &nbsp;&nbsp;&nbsp;开启通知，避免错过排队进展</p>
+    </div>
+    <div class="cities6">
+        <h1 style="font-family:arial;color:#000000;font-size:16px;">取消排号</h1>
+    </div>
+</div>
+<script src="https://cdn.staticfile.org/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdn.staticfile.org/moment.js/2.24.0/locale/zh-cn.js"></script>
+<script src="https://cdn.staticfile.org/vue/2.6.10/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.19.0-beta.1/axios.min.js"></script>
+<script type="text/javascript">
+
+    function detectOS() {
+        let isWin = (navigator.platform === "Win32") || (navigator.platform === "Windows");
+        if (isWin) return 'Windows';
+        let isMac = (navigator.platform === "Mac68K") || (navigator.platform === "MacPPC") || (navigator.platform === "Macintosh") || (navigator.platform === "MacIntel");
+        if (isMac) return "MacOS";
+        let isLinux = (String(navigator.platform).indexOf("Linux") > -1);
+        if (isLinux) return "Linux";
+        return "other";
+    }
+
+    const $http = axios.create({
+        timeout: 3000
+    });
+
+    let $app = new Vue({
+        el: '#app',
+        data: {
+            OSType: detectOS(),
+            cacheData: ''
+        },
+        filters: {
+            upper: function (value) {
+                return value.toUpperCase()
+            },
+            lower: function (value) {
+                return value.toLowerCase()
+            }
+        },
+        methods: {
+            a() {
+            }
+        },
+        created: function () {
+            this.cacheData = JSON.parse(sessionStorage.getItem('cacheData'));
+            debugger
+        },
+        destroyed: function () {
+        }
+    })
+</script>
+</body>
+</html>

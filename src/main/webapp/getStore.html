@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <title>海底捞</title>
     <link href="https://cdn.staticfile.org/normalize/8.0.1/normalize.min.css" rel="stylesheet">
     <link href="https://cdn.staticfile.org/flexboxgrid/6.3.1/flexboxgrid.min.css" rel="stylesheet">
@@ -11,20 +11,23 @@
 </head>
 <body>
 <div class="container" id="app">
-    <div class="letterBox" style="width: 100px; float:left;" >
+
+    <button @click="redirectOrder">生成</button>
+
+    <div class="letterBox" style="width: 10px; float:left;">
         <div class="letter" v-for="(item, index) in letterList" @click.stop="letterSelect(item, index)">{{item}}</div>
         <input type="hidden" name="letterChoose" v-model="letterChoose">
     </div>
 
 
-    <div style="width: 100px; float:left;">地市</div>
-    <div class="cityBox" style="width: 400px; padding:10px; float:left;">
+    <div style="width: 50px; float:left;">地市</div>
+    <div class="cityBox" style="width: 100px; padding:10px; float:left;">
         <div class="cityChoose" v-on:click.stop="cityDown">
-<!--            <i class="icon icon_arrowDown"></i>-->
-            <p title="请选择">{{cityName}}</p>
+            <!--            <i class="icon icon_arrowDown"></i>-->
+            <p title="">{{cityName}}</p>
             <input type="hidden" name="cityId" v-model="cityId">
         </div>
-        <div class="cityList" v-show="isCityShow" style="max-height: 240px; width: 398px; display: block;">
+        <div class="cityList" v-show="isCityShow" style="max-height: 240px; width: 100px; display: block;">
             <div class="city" v-for="(item, index) in cityList" @click.stop="citySelect(item, index)">{{item.value}}
             </div>
         </div>
@@ -32,8 +35,54 @@
 
     <div style="width: 100px; float:left;">店铺</div>
 
-    <div class="storeList" v-show="isStoreShow" style="max-height: 240px; width: 398px; display: block;float:left;">
-        <div class="store" v-for="(item, index) in storeList">{{item.storeName}} -  {{item.storeId}} </div>
+    <div class="storeList" v-show="isStoreShow" style="max-height: 240px; width: 200px; display: block;float:left;">
+        <input type="hidden" name="cityName" v-model="cityName">
+        <input type="hidden" name="storeAddress" v-model="storeAddress">
+        <div class="store" v-for="(item, index) in storeList" @click.stop="getStoreStatusByStoreId(item)">{{item.storeName}} - {{item.storeId}}-{{item.storeAddress}}</div>
+    </div>
+
+    <div style="width: 80px; float:left;">店铺详情</div>
+
+    <div class="storeStatus">
+        <table style="float:left;">
+            <tr>
+                <td>waitSmall</td>
+                <td>{{waitSmall}}</td>
+            </tr>
+            <tr>
+                <td>waitMid</td>
+                <td>{{waitMid}}</td>
+            </tr>
+            <tr>
+                <td>waitBig</td>
+                <td>{{waitBig}}</td>
+            </tr>
+            <tr>
+                <td>takeSmall</td>
+                <td>{{takeSmall}}</td>
+            </tr>
+            <tr>
+                <td>takeMid</td>
+                <td>{{takeMid}}</td>
+            </tr>
+            <tr>
+                <td>takeBig</td>
+                <td>{{takeBig}}</td>
+            </tr>
+            <tr>
+                <td>当前叫号-小桌 callSmall</td>
+                <td>{{callSmall}}</td>
+            </tr>
+            <tr>
+                <td>当前叫号-中桌 callMid</td>
+                <td>{{callMid}}</td>
+            </tr>
+            <tr>
+                <td>当前叫号-大桌 callBig</td>
+                <td>{{callBig}}</td>
+            </tr>
+
+        </table>
     </div>
 
 </div>
@@ -54,7 +103,7 @@
     }
 
     const $http = axios.create({
-        timeout: 3000
+        timeout: 10000
     });
 
     let $app = new Vue({
@@ -65,10 +114,27 @@
             letterChoose: '',
             cityList: [],
             isCityShow: false,
-            cityName:'请选择',
+            cityName: '',
             cityId: 0,
             storeList: [],
-            isStoreShow: true
+            isStoreShow: true,
+            storeStatus: '',
+
+            storeName: '',
+            storeAddress: '',
+
+            waitSmall: '',
+            waitMid: '',
+            waitBig: '',
+
+            takeSmall: '',
+            takeMid: '',
+            takeBig: '',
+
+            callMid: '',
+            callBig: '',
+            callSmall: ''
+
         },
         filters: {
             upper: function (value) {
@@ -79,9 +145,20 @@
             }
         },
         methods: {
-            letterSelect(item, index){
-                this.cityName='请选择';
-                this.cityList=[];
+            letterSelect(item, index) {
+                this.cityName = '请选择';
+                this.cityList = [];
+                this.storeList = [];
+                this.storeStatus = '';
+                this.waitSmall = '';
+                this.waitMid = '';
+                this.waitBig = '';
+                this.takeSmall = '';
+                this.takeMid = '';
+                this.takeBig = '';
+                this.callMid = '';
+                this.callBig = '';
+                this.callSmall = '';
                 this.letterChoose = item;
                 this.getCity();
             },
@@ -90,8 +167,16 @@
             },
             citySelect(item, index) {
                 this.isCityShow = false;
-                console.log(item);
-                console.log(index);
+                this.storeStatus = '';
+                this.waitSmall = '';
+                this.waitMid = '';
+                this.waitBig = '';
+                this.takeSmall = '';
+                this.takeMid = '';
+                this.takeBig = '';
+                this.callMid = '';
+                this.callBig = '';
+                this.callSmall = '';
                 this.cityId = item.key;
                 this.cityName = item.value;
                 this.getStoreListByCityId();
@@ -100,33 +185,56 @@
                 $http.get("/getCityList")
                     .then(response => {
                         console.log(response);
-
                         let letterMap = response.data;
-                        console.log(letterMap);
-
-                        for(let letter in letterMap){
+                        for (let letter in letterMap) {
                             // this.cityList.push({key: letter,value:letter});
-                            if ( this.letterList.indexOf(letter) == -1){
+                            if (this.letterList.indexOf(letter) === -1) {
                                 this.letterList.push(letter);
                             }
                             for (let city of letterMap[letter]) {
-                                if(this.letterChoose && letter == this.letterChoose){
-                                    this.cityList.push({key: city["cityId"],value:city["cityName"]});
+                                if (this.letterChoose && letter === this.letterChoose) {
+                                    this.cityList.push({key: city["cityId"], value: city["cityName"]});
                                 }
                             }
                         }
-                        console.log(this.dataList);
                     })
             },
             getStoreListByCityId: function () {
-                $http.post('/getStoreListByCityId',{cityId:this.cityId})
-                     .then(reponse => {
-                         debugger
-                         console.log(reponse);
-                         this.storeList = reponse.data;
-                         console.log(this.storeList);
+                $http.post('/getStoreListByCityId', {cityId: this.cityId})
+                    .then(reponse => {
+                        console.log(reponse);
+                        this.storeList = reponse.data;
+                        console.log(this.storeList);
 
-                     })
+                    })
+            },
+            getStoreStatusByStoreId: function (item) {
+                $http.post('/getStoreStatusByStoreId', {storeId: item.storeId})
+                    .then(reponse => {
+                        console.log(reponse);
+                        this.storeName = item.storeName;
+                        this.storeAddress = item.storeAddress;
+
+                        this.storeStatus = reponse.data;
+                        this.waitSmall = this.storeStatus[item.storeId].waitSmall;
+                        this.waitMid = this.storeStatus[item.storeId].waitMid;
+                        this.waitBig = this.storeStatus[item.storeId].waitBig;
+                        this.takeSmall = this.storeStatus[item.storeId].takeSmall;
+                        this.takeMid = this.storeStatus[item.storeId].takeMid;
+                        this.takeBig = this.storeStatus[item.storeId].takeBig;
+                        this.callMid = this.storeStatus[item.storeId].callMid;
+                        this.callBig = this.storeStatus[item.storeId].callBig;
+                        this.callSmall = this.storeStatus[item.storeId].callSmall;
+                    })
+            },
+            redirectOrder() {
+                debugger
+                const orderData = {
+                    'storeName': this.storeName, 'storeAddress': this.storeAddress,
+                    'callBig': this.callBig, 'callSmall': this.callSmall, 'callMid': this.callMid
+                }
+                sessionStorage.setItem('cacheData', JSON.stringify(orderData));
+                window.location.href = 'order.html'
             }
         },
         created: function () {
