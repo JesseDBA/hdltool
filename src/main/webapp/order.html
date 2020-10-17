@@ -6,51 +6,179 @@
     <link href="https://cdn.staticfile.org/normalize/8.0.1/normalize.min.css" rel="stylesheet">
     <link href="https://cdn.staticfile.org/flexboxgrid/6.3.1/flexboxgrid.min.css" rel="stylesheet">
     <link href="https://cdn.staticfile.org/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet">
-    <style type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+
+    <style>
+        .fg {
+            color: #a9a9a9;
+            font-size: 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            margin-left: 10px;
+            padding: 0px;
+        }
+
+        div {
+            white-space: normal;
+            word-break: break-all;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
 <div class="container" id="app">
-    <div>
-        <br>
-        <br>
-        <h3>排号成功</h3>
-        <br>
+    <!--排号详情-->
+    <div class="row" style="margin-top: 18px">
+        <div style="float: left">
+            <svg t="1602956128873" class="icon col" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3272" width="30" height="30">
+                <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z"
+                      p-id="3273" fill="#3f3f3f"></path>
+            </svg>
+        </div>
+        <div class="col" style="font-size: 30px;color:#000000;text-align: center;margin-top: -8px; ">排号详情</div>
+        <div style="float: right">
+            <svg t="1602956366185" class="icon col" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8016" width="32" height="32">
+                <path d="M778.666667 704c-42.666667 0-78.933333 21.333333-98.133334 55.466667l-296.533333-170.666667c12.8-21.333333 21.333333-49.066667 21.333333-76.8 0-14.933333-2.133333-29.866667-6.4-44.8l294.4-183.466667c21.333333 23.466667 51.2 38.4 85.333334 38.4 64 0 117.333333-53.333333 117.333333-117.333333s-53.333333-117.333333-117.333333-117.333333S661.333333 140.8 661.333333 204.8c0 14.933333 2.133333 29.866667 8.533334 42.666667l-290.133334 181.333333C352 390.4 307.2 362.666667 256 362.666667c-83.2 0-149.333333 66.133333-149.333333 149.333333s66.133333 149.333333 149.333333 149.333333c38.4 0 74.666667-14.933333 100.266667-38.4l307.2 174.933334h2.133333c-2.133333 6.4-2.133333 14.933333-2.133333 23.466666 0 64 53.333333 117.333333 117.333333 117.333334s117.333333-53.333333 117.333333-117.333334-53.333333-117.333333-119.466666-117.333333z m0-573.866667c40.533333 0 74.666667 34.133333 74.666666 74.666667s-34.133333 74.666667-74.666666 74.666667S704 245.333333 704 204.8s32-74.666667 74.666667-74.666667zM256 618.666667c-59.733333 0-106.666667-46.933333-106.666667-106.666667s46.933333-106.666667 106.666667-106.666667 106.666667 46.933333 106.666667 106.666667-49.066667 106.666667-106.666667 106.666667z m522.666667 277.333333c-40.533333 0-74.666667-34.133333-74.666667-74.666667s34.133333-74.666667 74.666667-74.666666 74.666667 34.133333 74.666666 74.666666-32 74.666667-74.666666 74.666667z"
+                      p-id="8017" fill="#6b6b6b"></path>
+            </svg>
+        </div>
     </div>
-    <div class="cities1">
-        <h4>&nbsp;&nbsp;&nbsp;{{cacheData.storeName}}</h4><span style="font-family:arial;color:#535353;50px;padding:20px ">刷新</span>
-    </div>
+    <hr>
 
-    <div class="cities1">
-        <p style="font-family:arial;color:#000000;font-size:16px;">&nbsp;&nbsp;&nbsp;还需等待&nbsp;</p>
-        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;当前叫号</p>
-        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;就餐时间</p>
-        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;就餐人数</p>
-        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">&nbsp;&nbsp;&nbsp;取号时间</p>
-        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">
-            &nbsp;&nbsp;&nbsp; *本店排号仅限当前市别使用，过市别，作废。若过号，则在现场叫号基础上每过1-10个号顺延3桌为您优先安排，具体等位时间以现场实际情况为准。本店现场等座顾客隔桌而坐，人与人之间尽量相隔1米，请您理解！</p>
+    <!--店铺名称-->
+    <div class="row" style="">
+        <div class="col-10" style="font-size: 18px;color: #444444;margin-top: 10px;"><strong>{{cacheData.storeName}}</strong></div>
+        <div class="col-1" style="margin-left: -10px">
+            <div style="float: right">
+                <a href="">
+                    <svg t="1602956567643" class="icon" viewBox="0 0 1211 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10988" width="25" height="25">
+                        <path d="M605.090909 930.909091c-144.616727 0-272.104727-73.309091-347.415273-184.738909L149.643636 746.170182C234.682182 911.173818 406.714182 1024 605.090909 1024c267.077818 0 486.4-204.520727 509.905455-465.454545L1210.181818 558.545455l-139.636364-186.181818-139.636364 186.181818 90.530909 0C998.306909 768 820.736 930.909091 605.090909 930.909091z"
+                              p-id="10989" fill="#666666"></path>
+                        <path d="M605.090909 0C354.117818 0 145.314909 180.596364 101.515636 418.909091L0 418.909091l139.636364 186.181818 139.636364-186.181818L196.561455 418.909091C238.871273 232.354909 405.736727 93.090909 605.090909 93.090909c125.998545 0 238.964364 55.621818 315.764364 143.639273l17.966545-4.608 95.045818 0C942.452364 92.346182 784.570182 0 605.090909 0z"
+                              p-id="10990" fill="#666666"></path>
+                    </svg>
+                    <div class="" style="color: #666666;font-size: 12px;padding: 0px;margin: 0px">刷新</div>
+                </a>
+            </div>
+        </div>
+        <div class="col-1" style="margin-top: 10px;padding: 0px;margin-right: 10px;">
+            <svg t="1602955584521" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2862" width="30" height="30">
+                <path d="M320 885.333333c-8.533333 0-17.066667-4.266667-23.466667-10.666666-12.8-12.8-10.666667-34.133333 2.133334-44.8L654.933333 512 298.666667 194.133333c-12.8-10.666667-14.933333-32-2.133334-44.8 10.666667-12.8 32-14.933333 44.8-2.133333l384 341.333333c6.4 6.4 10.666667 14.933333 10.666667 23.466667 0 8.533333-4.266667 17.066667-10.666667 23.466667l-384 341.333333c-6.4 6.4-12.8 8.533333-21.333333 8.533333z"
+                      p-id="2863" fill="#cfcfcf"></path>
+            </svg>
+        </div>
     </div>
-    <div class="cities3">
-        <p style="font-family:arial;color:#000000;font-size:16px;">{{cacheData.storeAddress}}</p>
-    </div>
-    <div class="cities4">
-        <p style="font-family:arial,serif;color:#000000;font-size:16px;">&nbsp;&nbsp;&nbsp;附近门店推荐</p>
-    </div>
-    <div class="cities5">
+    <hr>
+    <!--叫号情况-->
+    <div style="padding-left: 15px">
+        <div class="row">
+            <div class="col-3" style="color: #333333;margin-top: 15px;margin-left: 10px;font-size: 15px;padding: 0px">还需等待</div>
+            <div class="col" style="color: #e50c10;font-size: 35px;text-align: right;margin-right: 10px">11桌</div>
+        </div>
 
-        <p style="font-family:arial;color:#000000;font-size:16px;">&nbsp;&nbsp;&nbsp;门店叫号提前提醒</p>
+        <div class="row">
+            <div class="fg col-3">当前叫号</div>
+            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">小桌267号
+            </div>
+        </div>
 
-        <p style="font-family:arial;color:#9D9D9D;font-size:16px;">
-            &nbsp;&nbsp;&nbsp;开启通知，避免错过排队进展</p>
+        <div class="row">
+            <div class="fg col-3">就餐时间</div>
+            <div class="col" style="color: #333333; margin-top: 10px;margin-bottom: 10px;font-size: 15px;padding: 0px">采集市别</div>
+            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">275号
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fg col-3">就餐人数</div>
+            <div class="col" style="color: #333333; margin-top: 10px;margin-bottom: 10px;font-size: 15px;padding: 0px">3人</div>
+            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">小桌
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fg col-3">取号时间</div>
+            <div class="col" style="color: #333333;font-size: 15px; margin-top: 10px;margin-bottom: 10px;text-align: left;padding: 0px">
+                <!-- #BeginDate format:IS1 -->2020-10-15<!-- #EndDate -->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fg" style="padding-left: 0px;margin-right: 0px;padding-right: 0px">*</div>
+            <div class="fg col" style="padding-left: 3px;margin-left: 0px;padding-right: 10px">本店排号仅限当前市别使用，过市别,作废。若过号，则在现场叫号基础上每过1-10个号顺延3桌为您优先安排，具体等位时间以现场实际情况为准。本店现场等座顾客隔桌而坐，人与人之间尽量相隔1米，请您理解！</div>
+        </div>
     </div>
-    <div class="cities6">
-        <h1 style="font-family:arial;color:#000000;font-size:16px;">取消排号</h1>
+    <hr>
+    <!--店铺地址-->
+    <div class="row" style="font-size: 15px;padding-right: 10px">
+        <div style="margin-top: 10px;padding-left: 10px">
+            <img src="images/locate.png" width="14" height="16" alt=""/>
+        </div>
+        <div class="fl col">
+            <div style="color: #333333;margin-top: 10px;margin-bottom: 10px;">{{cacheData.storeAddress}}</div>
+        </div>
+        <div style="margin-top: 10px;">
+            <svg t="1602955584521" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2862" width="30" height="30">
+                <path d="M320 885.333333c-8.533333 0-17.066667-4.266667-23.466667-10.666666-12.8-12.8-10.666667-34.133333 2.133334-44.8L654.933333 512 298.666667 194.133333c-12.8-10.666667-14.933333-32-2.133334-44.8 10.666667-12.8 32-14.933333 44.8-2.133333l384 341.333333c6.4 6.4 10.666667 14.933333 10.666667 23.466667 0 8.533333-4.266667 17.066667-10.666667 23.466667l-384 341.333333c-6.4 6.4-12.8 8.533333-21.333333 8.533333z"
+                      p-id="2863" fill="#cfcfcf"></path>
+            </svg>
+        </div>
+    </div>
+    <hr>
+    <!--附近门店-->
+    <div class="row" style="padding-bottom: 10px;font-size: 15px;padding-right: 10px">
+        <div style="margin-top: 10px;padding-left: 10px">
+            <img src="images/store.png" width="16" height="14" alt=""/>
+        </div>
+        <div class="col">
+            <div style="color: #333333;margin-top: 10px;margin-bottom: 10px;">附近门店推荐</div>
+        </div>
+        <div style="margin-top: 10px;">
+            <svg t="1602955584521" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2862" width="30" height="30">
+                <path d="M320 885.333333c-8.533333 0-17.066667-4.266667-23.466667-10.666666-12.8-12.8-10.666667-34.133333 2.133334-44.8L654.933333 512 298.666667 194.133333c-12.8-10.666667-14.933333-32-2.133334-44.8 10.666667-12.8 32-14.933333 44.8-2.133333l384 341.333333c6.4 6.4 10.666667 14.933333 10.666667 23.466667 0 8.533333-4.266667 17.066667-10.666667 23.466667l-384 341.333333c-6.4 6.4-12.8 8.533333-21.333333 8.533333z"
+                      p-id="2863" fill="#cfcfcf"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="row" style="height: 10px;background-color: #f7f5f5"></div>
+    <!--叫号提醒-->
+    <div class="row" style="padding-top: 10px;padding-bottom: 10px;font-size: 15px;padding-right: 10px">
+        <div style="margin-top: 10px;padding-left: 10px">
+            <img src="images/ring.png" width="16" height="15" alt=""/>
+        </div>
+        <div class="col">
+            <div style="color: #333333;margin-top: 10px;margin-bottom: 10px;">门店叫号提前提醒</div>
+            <div class="fg" style="margin-left: 0px;">开启通知，避免错过排队进展</div>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <svg t="1602957022696" class="icon" viewBox="0 0 1171 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9047" width="48" height="48">
+                <path d="M0 512q0-74.313143 29.110857-141.970286t77.970286-116.589714 116.589714-77.970286 141.970286-29.110857l438.857143 0q74.313143 0 141.970286 29.110857t116.589714 77.970286 77.970286 116.589714 29.110857 141.970286-29.110857 141.970286-77.970286 116.589714-116.589714 77.970286-141.970286 29.110857l-438.857143 0q-74.313143 0-141.970286-29.110857t-116.589714-77.970286-77.970286-116.589714-29.110857-141.970286zM804.571429 804.571429q59.465143 0 113.444571-23.113143t93.403429-62.537143 62.537143-93.403429 23.113143-113.444571-23.113143-113.444571-62.537143-93.403429-93.403429-62.537143-113.444571-23.113143-113.444571 23.113143-93.403429 62.537143-62.537143 93.403429-23.113143 113.444571 23.113143 113.444571 62.537143 93.403429 93.403429 62.537143 113.444571 23.113143z"
+                      p-id="9048" fill="#e9e9eb"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="row" style="height: 10px;background-color: #f7f5f5"></div>
+    <!--点餐按钮-->
+    <div class="row" style="background-color: #ffffff;height: 80px;">
+        <button type="button" class="col btn" style="background-color: #f7f5f5;color: #f52d1c;height: 50px;width: 200px;float: left;margin-top: 15px;margin-left: 18px;margin-right: 10px;">取消排号
+        </button>
+        <button type="button" class="col btn" style="background-color: #f52d1c;color: #fffdfd;height: 50px;width: 200px;float: right;margin-top: 15px;margin-right: 18px;margin-left: 10px">在线点餐
+        </button>
     </div>
 </div>
 <script src="https://cdn.staticfile.org/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdn.staticfile.org/moment.js/2.24.0/locale/zh-cn.js"></script>
 <script src="https://cdn.staticfile.org/vue/2.6.10/vue.min.js"></script>
 <script src="https://cdn.staticfile.org/axios/0.19.0-beta.1/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
 
     function detectOS() {
@@ -87,7 +215,6 @@
         },
         created: function () {
             this.cacheData = JSON.parse(sessionStorage.getItem('cacheData'));
-            debugger
         },
         destroyed: function () {
         }
