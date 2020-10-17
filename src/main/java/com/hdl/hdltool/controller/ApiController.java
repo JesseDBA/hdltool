@@ -111,4 +111,8 @@ public class ApiController {
         return apiService.getStoreStatusByStoreId(JSONstoreId.getString("storeId"));
     }
 
+    @PostMapping(value = "/getStoreInfoByStoreId", produces = "application/json;charset=utf-8")
+    public JSONObject getStoreInfoByStoreId(@RequestBody JSONObject JSONstoreId) {
+        return apiService.getStoreInfoByStoreId(JSONstoreId.getString("storeId"));
+    }
 }

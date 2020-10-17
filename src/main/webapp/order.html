@@ -75,33 +75,34 @@
     <div style="padding-left: 15px">
         <div class="row">
             <div class="col-3" style="color: #333333;margin-top: 15px;margin-left: 10px;font-size: 15px;padding: 0px">还需等待</div>
-            <div class="col" style="color: #e50c10;font-size: 35px;text-align: right;margin-right: 10px">11桌</div>
+            <div class="col" style="color: #e50c10;font-size: 35px;text-align: right;margin-right: 10px" v-show="!isPass">{{cacheData.queueNumber-callNumber}}桌</div>
+            <div class="col" style="color: #100d0d;font-size: 35px;text-align: right;margin-right: 10px" v-show="isPass">已过号</div>
         </div>
 
         <div class="row">
             <div class="fg col-3">当前叫号</div>
-            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">小桌267号
+            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">{{tableSize}}&nbsp&nbsp{{callNumber}}号
             </div>
         </div>
 
         <div class="row">
             <div class="fg col-3">就餐时间</div>
-            <div class="col" style="color: #333333; margin-top: 10px;margin-bottom: 10px;font-size: 15px;padding: 0px">采集市别</div>
-            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">275号
+            <div class="col" style="color: #333333; margin-top: 10px;margin-bottom: 10px;font-size: 15px;padding: 0px">{{marketType}}</div>
+            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">{{cacheData.queueNumber}}号
             </div>
         </div>
 
         <div class="row">
             <div class="fg col-3">就餐人数</div>
-            <div class="col" style="color: #333333; margin-top: 10px;margin-bottom: 10px;font-size: 15px;padding: 0px">3人</div>
-            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">小桌
+            <div class="col" style="color: #333333; margin-top: 10px;margin-bottom: 10px;font-size: 15px;padding: 0px">{{cacheData.peopleNumber}}人</div>
+            <div class="col" style="color: #e50c10;text-align: right;margin-right: 10px; margin-top: 10px;margin-bottom: 10px;font-size: 15px;">{{tableSize}}
             </div>
         </div>
 
         <div class="row">
             <div class="fg col-3">取号时间</div>
             <div class="col" style="color: #333333;font-size: 15px; margin-top: 10px;margin-bottom: 10px;text-align: left;padding: 0px">
-                <!-- #BeginDate format:IS1 -->2020-10-15<!-- #EndDate -->
+                {{currentDate}}
             </div>
         </div>
 
@@ -191,15 +192,27 @@
         return "other";
     }
 
+
     const $http = axios.create({
-        timeout: 3000
+        timeout: 10000
     });
 
     let $app = new Vue({
         el: '#app',
         data: {
             OSType: detectOS(),
-            cacheData: ''
+            cacheData: '',
+            noonMarket: '',
+            evenMarket: '',
+            nightMarket: '',
+
+            tableSize: '',
+
+            currentDate: '',
+            marketType: '',
+
+            callNumber: '',
+            isPass: false
         },
         filters: {
             upper: function (value) {
@@ -210,11 +223,70 @@
             }
         },
         methods: {
-            a() {
+            getStoreInfoByStoreId(storeId) {
+                $http.post('/getStoreInfoByStoreId', {storeId: storeId})
+                    .then(reponse => {
+                        console.log(reponse);
+                        debugger
+                        this.noonMarket = reponse.data['noonMarket'];
+                        this.evenMarket = reponse.data['evenMarket'];
+                        this.nightMarket = reponse.data['nightMarket'];
+                        this.getMarket();
+
+                        if (this.cacheData.peopleNumber <= this.cacheData.smallLimit) {
+                            this.tableSize = '小桌';
+                            this.callNumber = this.cacheData.callSmall;
+                        } else if (this.cacheData.peopleNumber <= this.cacheData.midLimit) {
+                            this.tableSize = '中桌';
+                            this.callNumber = this.cacheData.callMid;
+                        } else {
+                            this.tableSize = '大桌';
+                            this.callNumber = this.cacheData.callBig;
+                        }
+
+                        if(this.callNumber>this.cacheData.queueNumber){
+                            this.isPass = true;
+                        }
+                    })
+            },
+            dateFormat(fmt, date) {
+                let ret;
+                const opt = {
+                    "Y+": date.getFullYear().toString(),        // 年
+                    "m+": (date.getMonth() + 1).toString(),     // 月
+                    "d+": date.getDate().toString(),            // 日
+                    "H+": date.getHours().toString(),           // 时
+                    "M+": date.getMinutes().toString(),         // 分
+                    "S+": date.getSeconds().toString()          // 秒
+                    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+                };
+                for (let k in opt) {
+                    ret = new RegExp("(" + k + ")").exec(fmt);
+                    if (ret) {
+                        fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+                    }
+                }
+                return fmt;
+            },
+            getMarket() {
+                let time = this.dateFormat("HH", new Date());
+                //09:00-16:00
+                if (time <= this.noonMarket.substr(0, this.noonMarket.indexOf('-'))) {
+                    this.marketType = '夜市（' + this.nightMarket + '）';
+                    //16:00-23:59
+                } else if (time <= this.evenMarket.substr(0, this.evenMarket.indexOf('-'))) {
+                    this.marketType = '午市（' + this.noonMarket + '）';
+                    //23:59-次日07:00
+                } else if (time <= this.nightMarket.substr(0, this.nightMarket.indexOf('-'))) {
+                    this.marketType = '晚市（' + this.evenMarket + '）';
+                }
             }
         },
         created: function () {
             this.cacheData = JSON.parse(sessionStorage.getItem('cacheData'));
+            debugger
+            this.getStoreInfoByStoreId(this.cacheData.storeId);
+            this.currentDate = this.dateFormat('YYYY-mm-dd', new Date());
         },
         destroyed: function () {
         }

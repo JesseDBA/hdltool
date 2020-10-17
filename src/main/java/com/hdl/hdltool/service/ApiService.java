@@ -69,4 +69,14 @@ public class ApiService {
                 .execute().body();
         return JSON.parseObject(result).getJSONObject("data");
     }
+
+    public JSONObject getStoreInfoByStoreId(String storeId) {
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("storeId", storeId);
+        String paramsJson = JSON.toJSONString(paramsMap);
+        String result = HttpRequest.post(myProps.getUrl() + "/app/v2/getStoreInfo")
+                .body(paramsJson)
+                .execute().body();
+        return JSON.parseObject(result).getJSONObject("data").getJSONObject("queueOutVo");
+    }
 }

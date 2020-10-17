@@ -20,7 +20,10 @@
     </div>
 
 
-    <div><div style="width: 50px; float:left;">地市</div><div style="background-color: chocolate">信息</div></div>
+    <div>
+        <div style="width: 50px; float:left;">地市</div>
+        <div style="background-color: chocolate">信息</div>
+    </div>
     <div class="cityBox" style="width: 100px; padding:10px; float:left;">
         <div class="cityChoose" v-on:click.stop="cityDown">
             <!--            <i class="icon icon_arrowDown"></i>-->
@@ -85,6 +88,11 @@
         </table>
     </div>
 
+    <div>
+        人数：<input value="text" v-model="peopleNumber"/>
+        插队号码：<input value="text" v-model="queueNumber"/>
+    </div>
+
 </div>
 <script src="https://cdn.staticfile.org/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdn.staticfile.org/moment.js/2.24.0/locale/zh-cn.js"></script>
@@ -119,6 +127,7 @@
             storeList: [],
             isStoreShow: true,
             storeStatus: '',
+            storeId: '',
 
             storeName: '',
             storeAddress: '',
@@ -133,7 +142,14 @@
 
             callMid: '',
             callBig: '',
-            callSmall: ''
+            callSmall: '',
+
+            smallLimit: '',
+            midLimit: '',
+            bigLimit: '',
+
+            peopleNumber: 0,
+            queueNumber: 0
 
         },
         filters: {
@@ -212,6 +228,7 @@
                 $http.post('/getStoreStatusByStoreId', {storeId: item.storeId})
                     .then(reponse => {
                         console.log(reponse);
+                        this.storeId = item.storeId
                         this.storeName = item.storeName;
                         this.storeAddress = item.storeAddress;
 
@@ -225,13 +242,19 @@
                         this.callMid = this.storeStatus[item.storeId].callMid;
                         this.callBig = this.storeStatus[item.storeId].callBig;
                         this.callSmall = this.storeStatus[item.storeId].callSmall;
+
+                        this.smallLimit = this.storeStatus[item.storeId].smallLimit;
+                        this.midLimit = this.storeStatus[item.storeId].midLimit;
+                        this.bigLimit = this.storeStatus[item.storeId].bigLimit;
                     })
             },
             redirectOrder() {
                 debugger
                 const orderData = {
-                    'storeName': this.storeName, 'storeAddress': this.storeAddress,
-                    'callBig': this.callBig, 'callSmall': this.callSmall, 'callMid': this.callMid
+                    'storeName': this.storeName, 'storeAddress': this.storeAddress, 'storeId': this.storeId,
+                    'callBig': this.callBig, 'callSmall': this.callSmall, 'callMid': this.callMid,
+                    'smallLimit': this.smallLimit, 'midLimit': this.midLimit, 'bigLimit': this.bigLimit,
+                    'queueNumber': this.queueNumber, 'peopleNumber': this.peopleNumber
                 }
                 sessionStorage.setItem('cacheData', JSON.stringify(orderData));
                 window.location.href = 'order.html'
